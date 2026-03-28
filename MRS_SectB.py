@@ -334,7 +334,7 @@ def topActive():
             "Watch Count": len(user.watchHistory)
         })
     #Sorting users in descending
-    df = pd.DataFrame(df)
+    df = pd.DataFrame(df, columns = ["Username", "Watch Count"])
     df = df.sort_values(by="Watch Count", ascending=False)
     return pd.DataFrame(df)
 
@@ -472,7 +472,7 @@ elif st.session_state.currentPage == "dashboardUsers":
                 st.warning("Please enter a valid title.")
 
             else:
-                df = mrs.searchTitles(userSearch)
+                df = mrs.searchTitles(title)
                 if len(df) > 0:
                     st.dataframe(searchMovies(mrs, df), use_container_width=True)
 
@@ -630,7 +630,7 @@ elif st.session_state.currentPage == "dashboardAdmins":
 
         #Edit/Update Button
         if st.button("Update Movie"):
-            if mrs.getMovieID(updMovieID) is not None:
+            if mrs.getMovieID(updMovieID) is None:
                 st.error("Movie doesn't exist.")
 
             #Make sure all values are entered
@@ -690,25 +690,3 @@ elif st.session_state.currentPage == "dashboardAdmins":
 
         else:
             st.error("No active users found.")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
